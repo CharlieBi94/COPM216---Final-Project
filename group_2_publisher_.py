@@ -24,7 +24,18 @@ while True:
 
     if decision > 90:
         print("Random Error occurred")
-        continue
+        temperature = "String data"
+        timestamp = datetime.timestamp(datetime.now())
+        datadict = {
+            'temp': temperature,
+            'time': timestamp
+        }
+        data = json.dumps(datadict)
+        info = client.publish(topic, data)
+
+        info.wait_for_publish()
+        print("Publishing to " + topic + " " + str(data))
+        print(info.is_published())
 
     else:
         temperature = sample_set.get_data
